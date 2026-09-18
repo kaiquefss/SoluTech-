@@ -2,9 +2,9 @@ import User from '../models/User.js';
 import userService from '../services/userService.js'
 
 const userController = {
-    selecionar: async (req, res) => {
+    select: async (req, res) => {
         try{
-            const resultado = await userService.recuperarUsuario();
+            const resultado = await userService.RetrieveUser();
             res.status(200).json({
                 message:"Usuarios recuperados com sucesso!",
                 data: resultado
@@ -14,19 +14,19 @@ const userController = {
         catch(error){
             console.log(Error)
             res.status(500).json({
-                message:"Erro ao recuperafr usuarios!",
+                message:"Erro ao recuperar usuarios!",
                 data:error.message
             })
         }
     },
-    criar: async (req,res)  => {
+    create: async (req,res)  => {
        try{
         const {name, email, password, role} = req.body
 
         const hashedPassword = await userService.hashedPassword(password)
          
         const user = new User(name, email, hashedPassword,role,null)
-        const resultado = await userService.criarUsuario(user);
+        const resultado = await userService.createUser(user);
         return res.status(201).json({
             message: "Usuario criado com sucesso",
             data: resultado
@@ -42,22 +42,24 @@ const userController = {
     },
 
     delete: async(req,res) => {
-        try{const id = req.params.id;
-            const resultado = await userService.deletarUsuario(id)
+        try{
+            const id = req.params.id;
+            const resultado = await userService.deleteUser(id)
             return res.status(200).json({
                 msg: "USUARIO DELETADO",
                 data:resultado
-    })}
-    catch(error){
-        console.log(error)
-            return res.status(500).json({'msg': 'ERRO AO DELETAR USUARIO!'})
-    }
+            })
+        }
+        catch(error){
+            console.log(error)
+            return res.status(500).json({msg: 'ERRO AO DELETAR USUARIO!'})
+        }
     },
-    atualizar: async(req,res) => {
+    update: async(req,res) => {
         try{const {id} = req.params;
         const {name,email, password} = req.body
         const user = new User(name, email, password, id)
-        const resultado = await userService.atualizarUsuario(user)
+        const resultado = await userService.updateUser(user)
             return res.status(200).json({
                 msg: "USUARIO EDITADO",
                 data: resultado

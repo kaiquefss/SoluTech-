@@ -4,6 +4,7 @@ async function authAdminMiddleware (req,res,next){
             message: "ACESSO NEGADO"
         })
     }
+    next();
 }
 
 export default authAdminMiddleware;

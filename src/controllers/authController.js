@@ -7,7 +7,7 @@ const authController = {
     login: async (req, res) => {
         try {
             const {email, password} = req.body
-            const userExists = await userService.recuperarUsuarioPorEmail(email)
+            const userExists = await userService.RetrieveUserEmail(email)
 
             if(!userExists || userExists.lenght === 0){
                 return res.status(400).json({

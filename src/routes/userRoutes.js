@@ -6,10 +6,10 @@ import authAdminMiddleware from '../middlewares/authAdminMiddleware.js';
 
 const userRoutes = Router()
 
-userRoutes.get("/", userController.selecionar)
-userRoutes.post("/", userController.criar)
-userRoutes.delete("/:id", authMiddleware,authAdminMiddleware, userController.delete)
-userRoutes.patch("/:id", userController.atualizar)
+userRoutes.get("/", userController.select)
+userRoutes.post("/", userController.create)
+userRoutes.delete("/:id", authMiddleware, authAdminMiddleware, userController.delete)
+userRoutes.patch("/:id", userController.update)
 
 
 export default userRoutes;

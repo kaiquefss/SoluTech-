@@ -2,24 +2,25 @@ import userRepository from "../repositories/userRepository.js";
 import bcrypt from 'bcrypt'
 
 const userService = {
-    recuperarUsuario: async() => {
-        const resultado = await userRepository.selecionar();
+    RetrieveUser: async() => {
+        const resultado = await userRepository.select();
         return resultado
     },
-    recuperarUsuarioPorId: async(userId) => {
-         const resultado = await userRepository.selecionarPorId(userId);
+    RetrieveUserId: async(userId) => {
+         const resultado = await userRepository.selectId(userId);
         return resultado
     },
-    recuperarUsuarioPorEmail: async(userId) => {
-         const resultado = await userRepository.selecionarPorEmail(userId);
+    RetrieveUserEmail: async(userId) => {
+         const resultado = await userRepository.selectEmail(userId);
         return resultado
     },
-    deletarUsuario: async(userId) => {
+    deleteUser: async(userId) => {
          const resultado = await userRepository.delete(userId);
         return resultado
     },
-    criarUsuario: async(user) => {
-         const resultado = await userRepository.criar(
+    createUser: async(user) => {
+        console.log(user.role)
+         const resultado = await userRepository.create(
             user.name,
             user.email,
             user.password,
@@ -27,8 +28,8 @@ const userService = {
         );
         return resultado
     },
-    atualizarUsuario: async(user) => {
-         const resultado = await userRepository.atualizar(
+    updateUser: async(user) => {
+         const resultado = await userRepository.update(
             user.name,
             user.email,
             user.password,
