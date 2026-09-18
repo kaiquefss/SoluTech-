@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class User {
     #id
     #name
@@ -44,3 +45,6 @@ class User {
 }
 
 export default User
+=======
+// Testando a branch
+>>>>>>> origin/SolutechC
