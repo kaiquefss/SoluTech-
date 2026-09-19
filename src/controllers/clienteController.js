@@ -1,4 +1,4 @@
-import cliente from '../models/Cliente.js';
+import Cliente from '../models/Cliente.js';
 import clienteService from '../services/clienteService.js'
 
 const clienteController = {
@@ -12,7 +12,7 @@ const clienteController = {
 
         }
         catch(error){
-            console.log(Error)
+            console.log(error)
             res.status(500).json({
                 message:"Erro ao recuperar cliente!",
                 data:error.message
@@ -23,7 +23,7 @@ const clienteController = {
        try{
         const {name, email, cpf} = req.body
 
-        const cliente = new cliente(name, email,cpf ,null)
+        const cliente = new Cliente(name, email,cpf ,null)
         const resultado = await clienteService.createCliente(cliente);
         return res.status(201).json({
             message: "cliente listado com sucesso",
@@ -56,7 +56,7 @@ const clienteController = {
     update: async(req,res) => {
         try{const {id} = req.params;
         const {name,email, cpf} = req.body
-        const cliente = new cliente(name, email, cpf, id)
+        const cliente = new Cliente(name, email, cpf, id)
         const resultado = await clienteService.updateCliente(cliente)
             return res.status(200).json({
                 msg: "CLIENTE EDITADO",

@@ -1,4 +1,4 @@
-import pool from '../configs/database.js'
+import pool from '../configs/Database.js'
 
 const productRepositories = {
 
