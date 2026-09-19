@@ -1,19 +1,19 @@
 import "dotenv/config";
 import express from "express";
-import produtosRouters from "./routers/produtosRouters.js";
+import productRouters from "./routers/productRouters.js";
 
 const app = express();
 app.use(express.json());
-app.use(produtosRouters);
+app.use(productRouters);
 
 const PORT = process.env.SERVER_PORT || 3000;
 
-app.get("/products", produtosRouters);
-app.get("/products/:id", produtosRouters);
-app.post("/products", produtosRouters);
-app.put("/products/:id", produtosRouters);
-app.patch("/products/:id", produtosRouters);
-app.delete("/products/:id", produtosRouters);
+app.get("/products", productRouters);
+app.get("/products/:id", productRouters);
+app.post("/products", productRouters);
+app.put("/products/:id", productRouters);
+app.patch("/products/:id", productRouters);
+app.delete("/products/:id", productRouters);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
