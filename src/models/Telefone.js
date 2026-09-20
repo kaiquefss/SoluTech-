@@ -22,19 +22,19 @@ class Telefone {
     set observation(value){    
         this.#observation = value;
     }
-    get email(){
-        return this.#email;
+    get number(){
+        return this.#number;
     }
-    set email(value){    
-        this.#email = value;
+    set number(value){    
+        this.#number = value;
     }
-    get cpf(){
-        return this.#cpf;
+    get ddd(){
+        return this.#ddd;
     }
-    set cpf(value){    
-        this.#cpf = value;
+    set ddd(value){    
+        this.#ddd = value;
     }
     
 }
 
-export default Cliente
+export default Telefone
