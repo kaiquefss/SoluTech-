@@ -1,4 +1,4 @@
-import { pool } from "../configs/database.js";
+import pool from "../configs/database.js";
 
 class ServiceRepository {
     async create(service) {
