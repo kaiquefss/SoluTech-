@@ -6,7 +6,7 @@ import errorMiddleware from "./middlewares/errorMiddleware.js"; // <--- Importar
 import userRoutes from './routes/userRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import saleRoutes from './routes/saleRoutes.js';
-import productRouters from './routers/productRouters.js';
+import productRoutes from './routes/productRoutes.js';
 import serviceRoutes from "./routes/serviceRoutes.js";
 import itemRoutes from "./routes/itemRoutes.js";
 import addressRoutes from "./routes/addressRoutes.js";
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use("/users", userRoutes);
 app.use("/auth", authRoutes);
 app.use("/", saleRoutes);
-app.use(productRouters);
+app.use("/products",productRoutes);
 app.use("/services", serviceRoutes);
 app.use("/items", itemRoutes);
 app.use("/addresses", addressRoutes);
