@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema ERP - SoluTech</title>
+    <style>
+        /* --- ESTILOS GERAIS (RESET) --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --cor-fundo: #0d1117;
+            --cor-card: #161b22;
+            --cor-primaria: #007bff;
+            --cor-primaria-hover: #0056b3;
+            --cor-texto: #f0f6fc;
+            --cor-texto-secundario: #8b949e;
+            --cor-borda: #30363d;
+        }
+
+        body {
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* --- TELA DE AUTENTICAÇÃO (LOGIN / CADASTRO) --- */
+        .auth-container {
+            background-color: var(--cor-card);
+            border: 1px solid var(--cor-borda);
+            padding: 2.5rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            color: var(--cor-primaria);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            color: var(--cor-texto-secundario);
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--cor-texto);
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--cor-fundo);
+            border: 1px solid var(--cor-borda);
+            border-radius: 6px;
+            color: var(--cor-texto);
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--cor-primaria);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--cor-primaria);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--cor-primaria-hover);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: var(--cor-texto-secundario);
+        }
+
+        .auth-footer a {
+            color: var(--cor-primaria);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* --- ESTRUTURA DO DASHBOARD --- */
+        .dashboard-container {
+            display: none; /* Escondido por padrão até o login */
+            width: 100vw;
+            height: 100vh;
+            grid-template-columns: 260px 1fr;
+        }
+
+        /* Menu Lateral */
+        .sidebar {
+            background-color: var(--cor-card);
+            border-right: 1px solid var(--cor-borda);
+            display: flex;
+            flex-direction: column;
+            padding: 1.5rem 0;
+        }
+
+        .sidebar-brand {
+            padding: 0 1.5rem 2rem 1.5rem;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--cor-primaria);
+            border-bottom: 1px solid var(--cor-borda);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0 1rem;
+        }
+
+        .sidebar-item a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--cor-texto);
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .sidebar-item a:hover, .sidebar-item.active a {
+            background-color: var(--cor-primaria);
+            color: white;
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 0 1rem;
+        }
+
+        .btn-logout {
+            width: 100%;
+            padding: 0.6rem;
+            background-color: transparent;
+            border: 1px solid #ff4444;
+            color: #ff4444;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background-color: #ff4444;
+            color: white;
+        }
+
+        /* Conteúdo Principal */
+        .main-content {
+            background-color: var(--cor-fundo);
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .main-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--cor-borda);
+            padding-bottom: 1rem;
+        }
+
+        .main-header h2 {
+            font-size: 1.8rem;
+        }
+
+        /* Cards Informativos (Métricas) */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: var(--cor-card);
+            border: 1px solid var(--cor-borda);
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .card h3 {
+            font-size: 0.9rem;
+            color: var(--cor-texto-secundario);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .card .value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--cor-primaria);
+        }
+
+        /* Classes Utilitárias de Exibição */
+        .hidden {
+            display: none !important;
+        }
+        .visible-grid {
+            display: grid !important;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= TELA DE LOGIN ================= -->
+    <div id="screen-login" class="auth-container">
+        <div class="auth-header">
+            <h1>Acesse o Sistema</h1>
+            <p>Entre com suas credenciais de usuário</p>
+        </div>
+        <form onsubmit="realizarLogin(event)">
+            <div class="form-group">
+                <label for="login-email">E-mail</label>
+                <input type="email" id="login-email" required placeholder="exemplo@email.com">
+            </div>
+            <div class="form-group">
+                <label for="login-senha">Senha</label>
+                <input type="password" id="login-senha" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn-primary">Entrar</button>
+        </form>
+        <div class="auth-footer">
+            Não tem uma conta? <a href="#" onclick="mudarTela('screen-cadastro')">Cadastre-se</a>
+        </div>
+    </div>
+
+    <!-- ================= TELA DE CADASTRO ================= -->
+    <div id="screen-cadastro" class="auth-container hidden">
+        <div class="auth-header">
+            <h1>Criar Conta</h1>
+            <p>Cadastre um novo usuário administrador</p>
+        </div>
+        <form onsubmit="realizarCadastro(event)">
+            <div class="form-group">
+                <label for="cad-nome">Nome Completo</label>
+                <input type="text" id="cad-nome" required placeholder="João Silva">
+            </div>
+            <div class="form-group">
+                <label for="cad-email">E-mail</label>
+                <input type="email" id="cad-email" required placeholder="exemplo@email.com">
+            </div>
+            <div class="form-group">
+                <label for="cad-senha">Senha</label>
+                <input type="password" id="cad-senha" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn-primary">Registrar Usuário</button>
+        </form>
+        <div class="auth-footer">
+            Já possui cadastro? <a href="#" onclick="mudarTela('screen-login')">Fazer Login</a>
+        </div>
+    </div>
+
+    <!-- ================= DASHBOARD PRINCIPAL ================= -->
+    <div id="screen-dashboard" class="dashboard-container">
+        
+        <!-- Menu Lateral -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <span>SoluTech Portal</span>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item active"><a href="#" onclick="navegarMenu('Visão Geral')">Dashboard</a></li>
+                <li class="sidebar-item"><a href="#" onclick="navegarMenu('Pedidos de Venda')">Pedidos de Venda</a></li>
+                <li class="sidebar-item"><a href="#" onclick="navegarMenu('Controle de Estoque')">Controle de Estoque</a></li>
+                <li class="sidebar-item"><a href="#" onclick="navegarMenu('Status de Venda')">Status de Venda</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <button class="btn-logout" onclick="fazerLogout()">Sair do Sistema</button>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Interno Dinâmico -->
+        <main class="main-content">
+            <header class="main-header">
+                <h2 id="dashboard-title">Visão Geral</h2>
+            </header>
+
+            <section class="dashboard-cards">
+                <div class="card">
+                    <h3>Pedidos de Venda</h3>
+                    <div class="value">42 Ativos</div>
