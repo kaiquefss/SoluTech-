@@ -44,4 +44,3 @@ class User {
 }
 
 export default User
-// Testando a branch
