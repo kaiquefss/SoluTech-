@@ -1,4 +1,4 @@
-class Telefone {
+class Phone {
     #id
     #observation
     #number
@@ -37,4 +37,4 @@ class Telefone {
     
 }
 
-export default Telefone
+export default Cliente
