@@ -12,8 +12,8 @@ class Telefone {
         
     }
 
-    get observation (){
-        return this.#observation;
+    get id (){
+        return this.#id;
     }
 
     get observation(){
