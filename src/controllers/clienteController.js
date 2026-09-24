@@ -24,7 +24,7 @@ const clienteController = {
     create: async (req,res)  => {
        try{
         const {name, email, cpf, phone, address} = req.body
-
+        console.log(name, email, cpf, phone, address)
         if(!name || !email || !cpf || !phone || !address){
             return res.status(404).json({
                 message: "Informações incompletas ou erradas."
