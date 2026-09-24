@@ -35,13 +35,10 @@ const clienteRepository = {
 
             const sqlCli = 'INSERT INTO clients VALUES(null, ?, ?, ?);'
             const [rowsCli] = await pool.execute(sqlCli, [cliente.name, cliente.cpf, cliente.email])
-            // return rowsCli
+            
             //SQL para inserir tel
             const idCliente = rowsCli.insertId;
             
-            console.log(cliente.phone.observation, cliente.phone.number, cliente.phone.ddd, idCliente);
-            
-
             const sqlTel = 'INSERT INTO phones VALUES(null, ?, ?, ?, ?);'
             const [rowsTel] = await pool.execute(sqlTel, [cliente.phone.observation, cliente.phone.number, cliente.phone.ddd, idCliente]);
 

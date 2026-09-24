@@ -35,6 +35,7 @@ const clienteController = {
         const addressUser = new Address(address.street, address.number, address.district, address.city, address.state, address.cep, null);
 
         const cliente = new Cliente(name, email, cpf, phoneUser, addressUser, null)
+        
         const resultado = await clienteService.createCliente(cliente);
         return res.status(201).json({
             message: "cliente listado com sucesso",
