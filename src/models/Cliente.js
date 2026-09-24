@@ -1,15 +1,18 @@
-class Cliente {
+ class Cliente {
     #id
     #name
     #email
     #cpf
+    #phone
+    #address
    
-    constructor(name, email, cpf, id = null){
+    constructor(name, email, cpf, phone, address, id = null){
         this.#name = name
         this.#email = email
         this.#cpf = cpf
+        this.#phone = phone;
+        this.#address = address;
         this.#id = id
-        
     }
 
     get id (){
@@ -33,6 +36,18 @@ class Cliente {
     }
     set cpf(value){    
         this.#cpf = value;
+    }
+    get phone(){
+        return this.#phone;
+    }
+    set phone(value){    
+        this.#phone = value;
+    }
+    get address(){
+        return this.#address;
+    }
+    set address(value){    
+        this.#address = value;
     }
     
 }

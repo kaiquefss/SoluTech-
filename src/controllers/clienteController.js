@@ -1,4 +1,6 @@
-import cliente from '../models/Cliente.js';
+import Address from '../models/Address.js';
+import Cliente from '../models/Cliente.js';
+import Phone from '../models/Phone.js';
 import clienteService from '../services/clienteService.js'
 
 const clienteController = {
@@ -21,9 +23,18 @@ const clienteController = {
     },
     create: async (req,res)  => {
        try{
-        const {name, email, cpf} = req.body
+        const {name, email, cpf, phone, address} = req.body
 
-        const cliente = new cliente(name, email,cpf ,null)
+        if(!name || !email || !cpf || !phone || !address){
+            return res.status(404).json({
+                message: "Informações incompletas ou erradas."
+            })
+        }
+        const phoneUser = new Phone(phone.observation, phone.number, phone.ddd, null);
+
+        const addressUser = new Address(address.street, address.number, address.district, address.city, address.state, address.cep, null);
+
+        const cliente = new Cliente(name, email, cpf, phoneUser, addressUser, null)
         const resultado = await clienteService.createCliente(cliente);
         return res.status(201).json({
             message: "cliente listado com sucesso",

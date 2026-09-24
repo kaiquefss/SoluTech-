@@ -1,4 +1,4 @@
-class Endereco {
+class Address {
     #id
     #street
     #number
@@ -62,3 +62,5 @@ class Endereco {
     }
 
 }
+
+export default Address

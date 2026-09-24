@@ -37,4 +37,4 @@ class Phone {
     
 }
 
-export default Cliente
+export default Phone;

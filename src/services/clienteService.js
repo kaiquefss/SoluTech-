@@ -1,4 +1,4 @@
-import clienteRepository from "../repositories/clienteRepository";
+import clienteRepository from "../repositories/clienteRepository.js";
 
 const clienteService = {
 RetrieveCliente: async() => {
@@ -19,10 +19,8 @@ RetrieveCliente: async() => {
     },
     createCliente: async(cliente) => {
         
-         const resultado = await cliente.create(
-            cliente.name,
-            cliente.email,
-            cliente.cpf,
+         const resultado = await clienteRepository.create(
+            cliente
         );
         return resultado
     },
