@@ -70,10 +70,20 @@ const clienteRepository = {
         }
     },
     
-    update: async (name, email , cpf, userId) => {
-        const sql = 'UPDATE clients SET name = ?, email = ?, cpf = ? WHERE id = ?;'
-        const [rows] = await pool.execute(sql, [name, email, cpf,userId])
-        return rows
+    update: async (client) => {
+        const sqlCli = 'UPDATE clients SET name = ?, email = ?, cpf = ? WHERE id = ?;'
+        const [rowsCli] = await pool.execute(sqlCli, [client.name, client.email, client.cpf])
+        const sqlTel = 'UPDATE phone SET observation = ?, number = ?, ddd = ? WHERE id = ?;'
+        const [rowsTel] = await pool.execute(sqlTel, [client.phones.observation,client.phone.number,client.phone.ddd])
+        const sqlEnd = 'UPDATE Address SET street = ?, number = ?, district = ?, city = ?, state = ?, cep = ?, WHERE id = ?;'
+        const [rowsEnd] = await pool.execute(sqlEnd, [client.address.street,client.address.number,client.address.district,client.address.city,client.address.state,client.address.cep])
+         
+        
+        return {
+                cliente: rowsCli,
+                phone: rowsTel,
+                address: rowsEnd
+            };
     },
     
     selectEmail: async (email) => {
