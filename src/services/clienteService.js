@@ -24,12 +24,9 @@ RetrieveCliente: async() => {
         );
         return resultado
     },
-    updateCliente: async(cliente) => {
+    updateCliente: async(client) => {
          const resultado = await clienteRepository.update(
-            cliente.name,
-            cliente.email,
-            cliente.cpf,
-            cliente.id
+            client
         );
         return resultado
     }

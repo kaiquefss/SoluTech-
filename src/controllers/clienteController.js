@@ -71,7 +71,7 @@ const clienteController = {
         const {name,email, cpf, phone, address} = req.body
         const phoneUser = new Phone(phone.observation, phone.number, phone.ddd, null);
         const addressUser = new Address(address.street, address.number, address.district, address.city, address.state, address.cep, null);
-        const cliente = new Cliente(name, email, cpf,phoneUser,addressUser, id)
+        const cliente = new Cliente(name, email, cpf, phoneUser, addressUser, id)
         console.log(phoneUser,addressUser)
         const resultado = await clienteService.updateCliente(cliente)
             return res.status(200).json({

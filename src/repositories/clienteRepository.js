@@ -19,23 +19,48 @@ const clienteRepository = {
         return rows
     },
     delete: async (clientId) => {
-        const sql = 'DELETE FROM clients WHERE id = ?;'
-        const [rows] = await pool.execute(sql, [clientId])
-        return rows
-    },
-    
-    create: async (cliente) => {
 
         const conn = await pool.getConnection();
-
-        try{
+        
+        try {
+        
             await conn.beginTransaction();
 
-            //SQL para inserir cli
+            const sqlTel = 'DELETE FROM phones WHERE id_clients = ?;'
+            const [rowsTel] = await conn.execute(sqlTel, [clientId]);
 
+            const sqlEnd = 'DELETE FROM address WHERE id_clients = ?;'
+            const [rowsEnd] = await conn.execute(sqlEnd, [clientId]);
+
+            const sqlCli = 'DELETE FROM clients WHERE id = ?;';
+            const [rowsCli] = await conn.execute(sqlCli, [clientId]);
+            
+            await conn.commit();
+
+            return {
+                cliente: rowsCli,
+                phone: rowsTel,
+                address: rowsEnd
+            };
+        }
+        catch(error) {
+            console.error("Erro ao deletar cliente no repository:", error);
+            await conn.rollback();
+            throw error;
+        }
+        finally {
+            conn.release();
+        }
+    },
+    create: async (cliente) => {
+        const conn = await pool.getConnection();
+        try{
+            await conn.beginTransaction();
+            //SQL para inserir cli
+            
             const sqlCli = 'INSERT INTO clients VALUES(null, ?, ?, ?);'
             const [rowsCli] = await pool.execute(sqlCli, [cliente.name, cliente.cpf, cliente.email])
-            
+
             //SQL para inserir tel
             const idCliente = rowsCli.insertId;
             
@@ -68,29 +93,60 @@ const clienteRepository = {
     },
     
     update: async (client) => {
-        const sqlCli = 'UPDATE clients SET name = ?, email = ?, cpf = ? WHERE id = ?;'
-        const [rowsCli] = await pool.execute(sqlCli, [client.name, client.email, client.cpf])
-        const sqlTel = 'UPDATE phone SET observation = ?, number = ?, ddd = ? WHERE id = ?;'
-        const [rowsTel] = await pool.execute(sqlTel, [client.phones.observation,client.phone.number,client.phone.ddd])
-        const sqlEnd = 'UPDATE Address SET street = ?, number = ?, district = ?, city = ?, state = ?, cep = ?, WHERE id = ?;'
-        const [rowsEnd] = await pool.execute(sqlEnd, [client.address.street,client.address.number,client.address.district,client.address.city,client.address.state,client.address.cep])
-         
-        
-        return {
+
+        const conn = await pool.getConnection();
+
+        try{
+            await conn.beginTransaction();
+
+            const sqlCli = 'UPDATE clients SET name = ?, email = ?, cpf = ? WHERE id = ?;';
+            const [rowsCli] = await pool.execute(sqlCli, [
+                client.name || null, 
+                client.email || null, 
+                client.cpf || null, 
+                client.id
+                ]
+            );
+
+            const sqlTel = 'UPDATE phones SET observation = ?, number = ?, ddd = ? WHERE id_clients = ?;'; 
+            const [rowsTel] = await pool.execute(sqlTel, [
+                client.phone?.observation || null,
+                client.phone?.number || null,
+                client.phone?.ddd || null,
+                client.id 
+                ]
+            );
+
+            const sqlEnd = 'UPDATE address SET street = ?, number = ?, district = ?, city = ?, state = ?, cep = ? WHERE id_clients = ?;';
+            const [rowsEnd] = await pool.execute(sqlEnd, [
+                client.address?.street || null,
+                client.address?.number || null,
+                client.address?.district || null,
+                client.address?.city || null,
+                client.address?.state || null,
+                client.address?.cep || null,
+                client.id 
+                ]
+            );
+
+            await conn.commit();
+            
+            return {
                 cliente: rowsCli,
                 phone: rowsTel,
                 address: rowsEnd
-            };
-    },
-    
-    selectEmail: async (email) => {
-        const sql = 'SELECT * FROM clients WHERE email = ?;'
-        const [rows] = await pool.execute(sql, [email])
-        return rows
-    }
+                };
+        }
+        catch(error){
+            console.log(error);
+            await conn.rollback();
+            throw error;
+        }
+        finally{
+            conn.release();
+        }
 
-
-
+        }
 }
 
 export default clienteRepository;
