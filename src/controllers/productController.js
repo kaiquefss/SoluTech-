@@ -1,4 +1,3 @@
-import Produto from "../models/Product.js";
 import Product from "../models/Product.js";
 import productService from "../services/productService.js";
 
