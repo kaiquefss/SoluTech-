@@ -7,9 +7,9 @@ CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     email VARCHAR (75) NOT NULL UNIQUE,
-    password VARCHAR(1000) NOT NULL
-    role ENUM('user', 'admin') NOT NULL DEFAULT 'user'
-)
+    password VARCHAR(1000) NOT NULL,
+    `role` ENUM('user', 'admin') NOT NULL DEFAULT 'user'
+);
 
 -- 2. Tabela CLIENTES
 CREATE TABLE clients (
