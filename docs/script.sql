@@ -76,6 +76,7 @@ CREATE TABLE sales (
     id_users INT,
     FOREIGN KEY (id_users)
     REFERENCES users(id)
+    
 );
 
 -- 8. Tabela ITENS
