@@ -1,5 +1,5 @@
 
-import pool from '../configs/database.js';
+import pool from '../config/Database.js';
 
 const saleRepository = {
 

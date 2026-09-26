@@ -3,10 +3,9 @@ import saleController from "../controllers/saleController.js";
 
 const router = Router();
 
-// Rota para listar todas as vendas (GET /sales)
-router.get("/sales", saleController.select);
-
-// Rota para registrar uma nova venda (POST /sales)
-router.post("/sales", saleController.create);
+router.get("/", saleController.select);
+router.post("/", saleController.create);
+router.put("/:id", saleController.update);    // <--- Rota de atualizar
+router.delete("/:id", saleController.delete); // <--- Rota de deletar
 
 export default router;
